@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
+Copyright © 2021 Miguel Angel A. Navarro <migue.danxor@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,26 +21,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// mkCmd represents the mk command
-var mkCmd = &cobra.Command{
-	Use:   "mk",
-	Short: "Create [mdl] [rts] file",
-	Long:  `Crea archivos de echo, en desarrollo`,
+// ctlCmd represents the ctl command
+var ctlCmd = &cobra.Command{
+	Use:   "ctl",
+	Short: "Created echo controller",
+	Long:  `This shit helps you to created echos controller`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("mk called")
+		fmt.Println("ctl called")
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(mkCmd)
+	mkCmd.AddCommand(ctlCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// mkCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// ctlCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// mkCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// ctlCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

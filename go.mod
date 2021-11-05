@@ -3,6 +3,7 @@ module wecho
 go 1.17
 
 require (
+	github.com/culturadevops/jgt/jio v0.0.0-20201124225139-c0de2ada0cbe
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.9.0
 )
