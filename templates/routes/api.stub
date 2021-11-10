@@ -1,0 +1,12 @@
+package routes
+
+import (
+	"net/http"
+	"github.com/labstack/echo"
+)
+
+func %EXPORTNAME%(e *echo.Echo) {
+	r := e.Group("/api/v1/")
+	/*middlewares*/
+	r.POST("/Ejemplo", controllers.Ejemplo)
+}

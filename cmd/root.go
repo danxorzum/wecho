@@ -18,8 +18,11 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+
 	"github.com/spf13/cobra"
 
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
 
@@ -29,7 +32,7 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "wecho",
 	Short: "Cli para echo web server",
-	Long: `wecho es un cli para `,
+	Long:  `wecho es un cli para `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -48,33 +51,67 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.wecho.yaml)")
+	//rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.wecho.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
+	home, err := homedir.Dir()
+	fmt.Println(home)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		// Search config in home directory with name ".wecho" (without extension).
-		viper.AddConfigPath(home)
+		// Search config in home directory with name ".cobra" (without extension).
+		viper.AddConfigPath("./config")
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".wecho")
+		viper.SetConfigName(".cobra")
 	}
 
-	viper.AutomaticEnv() // read in environment variables that match
+	viper.AutomaticEnv()
 
-	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+
+	path, _ := filepath.Abs("")
+
+	viper.SetDefault("cmddir", path)
 }
+
+// func initConfig() {
+// 	home, err := homedir.Dir()
+// 	fmt.Println(home)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		os.Exit(1)
+// 	}
+
+// 	viper.AddConfigPath(home)
+// 	viper.AddConfigPath("./config")
+// 	viper.SetConfigName(".wecho")
+
+// 	viper.AutomaticEnv()
+// 	file := home + "/.wecho"
+
+// 	viper.WriteConfig()
+// 	if err := viper.ReadInConfig(); err != nil {
+// 		log.Fatalf("Error reading config file, %s", err)
+// 	}
+
+// 	if viper.GetString("default.templatefolder") == "" {
+// 		fmt.Println("falta templatefolder en el archivo " + file)
+// 		os.Exit(1)
+// 	} else {
+// 		viper.SetDefault("homedir", home+"/"+viper.GetString("default.templatefolder"))
+// 	}
+// }

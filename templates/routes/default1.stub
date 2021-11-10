@@ -1,0 +1,12 @@
+package routes
+
+import (
+
+	"github.com/labstack/echo"
+)
+// ejemplo para usar en main.go	routes.%EXPORTNAME%(e)
+func %EXPORTNAME%(e *echo.Echo) {
+
+	e.POST("/Ejemplo", controllers.Ejemplo)
+
+}

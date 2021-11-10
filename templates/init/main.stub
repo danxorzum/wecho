@@ -1,0 +1,23 @@
+import (
+	"log"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+	config "github.com/spf13/viper"
+)
+
+func init() {
+	
+}
+func mainMiddlewares(e *echo.Echo) {
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+}
+func mainRoutes(e *echo.Echo) {
+
+}
+func main() {
+	e := echo.New()
+	mainMiddlewares(e)
+	mainRoutes(e)
+	e.Logger.Fatal(e.Start(":8080"))
+}

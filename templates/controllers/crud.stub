@@ -1,0 +1,48 @@
+package controllers
+
+import (
+		"github.com/labstack/echo"
+)
+var %EXPORTNAME% *%MODELNAME%Controller
+type %MODELNAME%Controller struct {
+
+
+}
+
+type Request%EXPORTNAME% struct {
+//	Account  string `json:"account" form:"account" query:"account"`
+}
+func  (t *%MODELNAME%Controller)  Add(c echo.Context) error {
+	u := new(Request%EXPORTNAME%)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	models.%EXPORTNAME%.Add(u)
+	return c.JSON(http.StatusOK, "Registro Creado")
+	}
+func  (t *%MODELNAME%Controller)  List(c echo.Context) error {
+		list := models.%EXPORTNAME%.List()
+		return c.JSON(http.StatusOK, list)
+	}
+func  (t *%MODELNAME%Controller)  Show(c echo.Context) error {
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	use, _ := models.%EXPORTNAME%.Info(uint(id))
+	return c.JSON(http.StatusOK, use)
+	}
+	
+func  (t *%MODELNAME%Controller)  Del(c echo.Context) error {
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	use, _ := models.%EXPORTNAME%.Del(uint(id))
+	return c.JSON(http.StatusOK, "Registro eliminado")
+	}
+func  (t *%MODELNAME%Controller)  Update(c echo.Context) error {
+
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	u := new(Request%EXPORTNAME%)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	models.%EXPORTNAME%.Update(uint(id),u)
+
+		return c.JSON(http.StatusOK, "Registro actualizado")
+	}

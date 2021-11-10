@@ -1,0 +1,69 @@
+package models
+
+import (
+
+	"errors"
+	"github.com/jinzhu/gorm"
+	
+	"math"
+	"strings"
+)
+var %EXPORTNAME% *%MODELNAME%
+type %MODELNAME% struct {
+	gorm.Model
+
+}
+
+func (this *%MODELNAME%) List() []%MODELNAME% {
+	var data = []%MODELNAME%{}
+	err := libs.DB.Find(&data).Error
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return data
+}
+
+func (this *%MODELNAME%) Info(id uint) (%MODELNAME%, error) {
+	var data %MODELNAME%
+	
+	if libs.DB.Where("id  = ? ", id).Find(&data).RecordNotFound() {
+		return %MODELNAME%{}, errors.New("No existe registro con es id")
+	}
+	
+	return data , nil
+}
+
+func (this *%MODELNAME%) Add()  (%MODELNAME%, error) {
+	var data %MODELNAME%
+
+	if err :=  libs.DB.Create(&data).Error; err != nil {
+		return %MODELNAME%{}, err
+	} else {
+
+		return data, nil
+	}
+
+}
+
+func (this *%MODELNAME%) Update( id uint) (%MODELNAME%,error) {
+	var data %MODELNAME%
+	
+
+	if libs.DB.Where("id = ? ", id).First(&data).RecordNotFound() {
+		return %MODELNAME%{}, errors.New("No hay registro con ese id")
+	}
+
+	if err := libs.DB.Save(&data).Error; err != nil {
+		return %MODELNAME%{}, errors.New("no se pudo actualizar")
+	}
+	return data, nil
+
+}
+
+func (this *%MODELNAME%) Del(id uint) error {
+	var data %MODELNAME%
+	if err := libs.DB.Where("id = ?", id).Delete(&data).Error; err != nil {
+		return err
+	}
+	return nil
+}

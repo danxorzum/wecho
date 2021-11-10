@@ -15,8 +15,19 @@ limitations under the License.
 */
 package main
 
-import "wecho/cmd"
+import (
+	"path/filepath"
+	"runtime"
+	"wecho/cmd"
+
+	"github.com/spf13/viper"
+)
 
 func main() {
+	var (
+		_, b, _, _ = runtime.Caller(0)
+		basepath   = filepath.Dir(b)
+	)
+	viper.SetDefault("homedir", basepath)
 	cmd.Execute()
 }

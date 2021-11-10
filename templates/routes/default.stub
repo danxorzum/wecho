@@ -1,0 +1,16 @@
+package routes
+
+import (
+
+	"github.com/labstack/echo"
+)
+// ejemplo para usar en main.go	routes.%EXPORTNAME%(e)
+func %EXPORTNAME%(e *echo.Echo) {
+	r := e.Group("/%MODELNAME%")
+	/*middlewares*/
+	r.POST("/add", controllers.%EXPORTNAME%Controller.Add)
+	r.PUT("/update/:id", controllers.%EXPORTNAME%Controller.Update)
+	r.DELETE("/del/:id", controllers.%EXPORTNAME%Controller.Del)
+	r.GET("/show/:id", controllers.%EXPORTNAME%Controller.Show)
+	r.GET("/list", controllers.%EXPORTNAME%Controller.List)
+}
