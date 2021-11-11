@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/danxorzum/wecho/services"
 	"github.com/spf13/cobra"
 )
 
@@ -25,22 +26,28 @@ import (
 var ctlCmd = &cobra.Command{
 	Use:   "ctl",
 	Short: "Created echo controller",
-	Long:  `This shit helps you to created echos controller`,
+	Long: `This shit helps you to created echos controllers. 
+You can make crud template or empty one.`,
+	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("ctl called")
+		params, err := cmd.Flags().GetString("Template")
+		if err != nil {
+
+			fmt.Println(err)
+		} else {
+			switch params {
+			case "crud":
+				services.Srvs.CreateFile("controllers", args[0], params)
+
+			case "default":
+				services.Srvs.CreateFile("controllers", args[0], "default")
+			}
+		}
+		fmt.Println("controller created")
 	},
 }
 
 func init() {
+	ctlCmd.Flags().StringP("Template", "t", "default", "Select the controller templeate.")
 	mkCmd.AddCommand(ctlCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// ctlCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// ctlCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

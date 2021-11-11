@@ -18,34 +18,41 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/danxorzum/wecho/services"
 	"github.com/spf13/cobra"
 )
 
 // libCmd represents the lib command
 var libCmd = &cobra.Command{
 	Use:   "lib",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Create a lib component.",
+	Long: `Create lib folder if doesnt exist and create a custom lib template. Also create lib folder.
+Use -t flag so creatr:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+libs 	: create preconfig Db.
+mysql	: create empty DB.
+default	: create empty lib.`,
+	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("lib called")
+		params, err := cmd.Flags().GetString("Template")
+		if err != nil {
+
+			fmt.Println(err)
+		} else {
+			switch params {
+			case "libs":
+				services.Srvs.CreateFile("libs", args[0], params)
+			case "mysql":
+				services.Srvs.CreateFile("libs", args[0], params)
+			case "default":
+				services.Srvs.CreateFile("libs", args[0], "default")
+			}
+		}
+		fmt.Println("controller created")
 	},
 }
 
 func init() {
+	libCmd.Flags().StringP("Template", "t", "default", "Select the lib templeate.")
 	mkCmd.AddCommand(libCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// libCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// libCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

@@ -1,4 +1,4 @@
-module wecho
+module github.com/danxorzum/wecho
 
 go 1.17
 

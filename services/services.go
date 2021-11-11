@@ -17,23 +17,23 @@ func (t *Services) aUpper(b string) string {
 	return b
 }
 
-func (t *Services) GetTemplateName(folderName string, filesName string) string {
+func (t *Services) getTemplateName(folderName string, filesName string) string {
 	return viper.GetString("homedir") + "/templates/" + folderName + "/" + filesName + ".stub"
 }
-func (t *Services) CreateMapDefault(fileName string) map[string]string {
+func (t *Services) createMapDefault(fileName string) map[string]string {
 	MapForReplace := make(map[string]string)
 
-	MapForReplace["%MODELNAME%"] = t.aUpper(fileName)
-	MapForReplace["%MODELLOWNAME%"] = fileName
+	MapForReplace["%EXPORTNAME%"] = t.aUpper(fileName)
+	MapForReplace["%MODELNAME%"] = fileName
 	return MapForReplace
 }
 
-func (t *Services) TestCreateFile(folderName string, filesName string, templateName string) {
-	tempName := t.GetTemplateName(folderName, templateName)
+func (t *Services) CreateFile(folderName string, filesName string, templateName string) {
+	tempName := t.getTemplateName(folderName, templateName)
 	currentP := viper.GetString("cmddir") + "/"
 
 	jio.CreateFolder(currentP + folderName)
-	MapForReplace := t.CreateMapDefault(filesName)
+	MapForReplace := t.createMapDefault(filesName)
 	newName := currentP + folderName + "/" + filesName + "_" + folderName + ".go"
 
 	// file, _ := ioutil.ReadFile(tempName)
@@ -42,17 +42,3 @@ func (t *Services) TestCreateFile(folderName string, filesName string, templateN
 	jio.NewFileforTemplate(newName, tempName, MapForReplace)
 
 }
-
-// func (t *Service) CreateDefaultFile(origFolderName string, filesVersionName string, destFolderName string, nameStruct string, destFileName string) {
-// 	path, _ := filepath.Abs("")
-// 	jio.CreateFolder(path + "/lib/" + origFolderName)
-// 	MapForReplace := t.CreateMapDefault(nameStruct)
-// 	newName := path + "/lib/" + destFolderName + "/" + destFileName
-// 	//fmt.Println(newName)
-// 	fmt.Println("C:/Users/USER/")
-// 	//fmt.Println(MapForReplace)
-// 	tes, _ := ioutil.ReadFile(viper.GetString("homedir") + "./templates/" + origFolderName + "/" + filesVersionName + ".stub")
-// 	fmt.Println(tes)
-
-// 	jio.NewFileforTemplate(newName, t.GetTempleteName(origFolderName, filesVersionName), MapForReplace)
-// }

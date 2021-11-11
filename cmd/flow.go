@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
+Copyright © 2021 Miguel Angel A. Navarro <EMAIL ADDRESS>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,17 +21,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// mkCmd represents the mk command
-var mkCmd = &cobra.Command{
-	Use:   "mk",
-	Short: "Create [mdl] [rts] [mdl] [cfg] [ctl] [lib] file",
-	Long: `Create any kind of files to simplify your echo develop life.
-You can create models, middlewares, controllers, configurations, libs`,
+// flowCmd represents the flow command
+var flowCmd = &cobra.Command{
+	Use:   "flow",
+	Short: "Creat entired echo flow",
+	Long: `Create an entired echo flow, routes whit controller and models etc...
+Currently in develop`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("mk called")
+		fmt.Println("working in this shit")
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(mkCmd)
+	rootCmd.AddCommand(flowCmd)
 }

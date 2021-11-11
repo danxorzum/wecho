@@ -18,7 +18,8 @@ package main
 import (
 	"path/filepath"
 	"runtime"
-	"wecho/cmd"
+
+	"github.com/danxorzum/wecho/cmd"
 
 	"github.com/spf13/viper"
 )

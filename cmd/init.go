@@ -16,38 +16,21 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/danxorzum/wecho/services"
 	"github.com/spf13/cobra"
 )
 
-// cfgCmd represents the cfg command
-var cfgCmd = &cobra.Command{
-	Use:   "cfg",
-	Short: "Create configuration files.",
-	Long: `Create mysql and yml configuration files. 
-Also created config folder if doesnt exist.`,
-	Args: cobra.MinimumNArgs(1),
+// initCmd represents the init command
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "Initialized Go echo v4 project",
+	Long:  `Initialized your echo v4 project, create a projct folder, inside a main.go file preconfigurate.`,
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// params, err := cmd.Flags().GetString("Template")
-		// if err != nil {
-
-		// fmt.Println(err)
-		// } else {
-		// switch params {
-		switch args[0] {
-		case "mysql":
-			services.Srvs.CreateFile("configs", args[0], "mysql")
-
-		case "default":
-			services.Srvs.CreateFile("configs", args[0], "yml")
-		}
-		// }
-		fmt.Println("config created")
+		services.InitP(args[0])
 	},
 }
 
 func init() {
-	mkCmd.AddCommand(cfgCmd)
+	rootCmd.AddCommand(initCmd)
 }

@@ -16,34 +16,41 @@ limitations under the License.
 package cmd
 
 import (
-	"wecho/services"
+	"fmt"
 
+	"github.com/danxorzum/wecho/services"
 	"github.com/spf13/cobra"
 )
 
 // mdlCmd represents the mdl command
 var mdlCmd = &cobra.Command{
 	Use:   "mdl",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Create model files",
+	Long: `Create model fiels and model folder.
+use -t flag to select template:
+crud	: Create crud template.
+default	: Empty template`,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if flags, _ := cmd.Flags().GetBool("full"); flags {
-			services.Mdl(args[0], "2")
+		params, err := cmd.Flags().GetString("Template")
+		if err != nil {
+
+			fmt.Println(err)
 		} else {
-			services.Mdl(args[0], "1")
+			switch params {
+			case "crud":
+				services.Srvs.CreateFile("models", args[0], params)
+
+			case "default":
+				services.Srvs.CreateFile("models", args[0], "default")
+			}
 		}
+		fmt.Println("model created")
 	},
 }
 
 func init() {
-	mdlCmd.Flags().BoolP("simple", "s", false, "Help message for toggle")
-	mdlCmd.Flags().BoolP("full", "f", false, "Help message for toggle")
+	mdlCmd.Flags().StringP("Template", "t", "default", "Select the Model templeate.")
 	mkCmd.AddCommand(mdlCmd)
 
 	// Here you will define your flags and configuration settings.
